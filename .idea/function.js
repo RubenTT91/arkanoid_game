@@ -11,7 +11,7 @@ let x = canvas.width / 2
 let y = canvas.heigth -460
 
 // velocidad de la pelota
-let dx = 1
+let dx = -2
 let dy = -1
 
 
@@ -27,12 +27,28 @@ function drawPaddle(){}
 function drawBricks(){}
 function drawBricks(){}
 
-function collisionDetection(){}
+function collisionDetection(){
+if(
+    x + dx > canvas.width -ballRadius ||
+    x + dx < ballRadius
+){
+    dx = -dx
+}
+
+
+ if 
+ (
+    y +dy < ballRadius)
+ { dy = -dy}
+
+}
+
 function ballMoveement(){
     x += dx
     y += dy
 }
 function paddleMovemeent(){}
+
 function clearDraw(){
     ctx.clearRect(0,0, canvas.width, canvas.height)
 
