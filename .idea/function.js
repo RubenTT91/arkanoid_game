@@ -2,16 +2,16 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d"); // se selecciona para que renderice en 2d
 
 // tamaño de canvas
-canvas.width = 448;
-canvas.heigth = 600;
+canvas.width = 480;
+canvas.heigth = 400;
 
 // variables de la pelota
 const ballRadius = 2;
 let x = canvas.width / 2;
-let y = canvas.heigth - 460;
+let y = canvas.heigth -260;
 
 // velocidad de la pelota
-let dx = -2;
+let dx = -1;
 let dy = -1;
 
 function drawBall() {
@@ -21,7 +21,23 @@ function drawBall() {
   ctx.fill();
   ctx.closePath();
 }
-function drawPaddle() {}
+
+// Variables del paddlet
+const paddletHeigh = 5;
+const paddletWith= 30;
+
+let paddleX = (canvas.width - paddletWith) /2;
+let paddley = canvas.height - paddletHeigh -5 ;
+
+function drawPaddle() {
+  ctx.fillRect(
+    paddleX,
+    paddley,
+    paddletWith,
+    paddletHeigh
+  )
+  
+}
 function drawBricks() {}
 function drawBricks() {}
 
@@ -35,8 +51,9 @@ function collisionDetection() {
   }
 
   if (y + dy > canvas.height) {
-    console.log("Game Over");
-    document.location.reload();
+    console.log(y +dy);
+    //console.log("Game Over");
+    //document.location.reload();
   }
 }
 
