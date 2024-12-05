@@ -32,7 +32,7 @@ const paddletHeigh = 5;
 const paddletWith = 30;
 let paddleX = (canvas.width - paddletWith) / 2;
 let paddley = canvas.height - paddletHeigh - 5;
-
+// se creo conexión con Equipo corporativo
 //Dibujar paddlet o recuadro
 function drawPaddle() {
   ctx.fillStyle = "red";
