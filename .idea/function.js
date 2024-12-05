@@ -43,7 +43,6 @@ function drawBricks() {}
 
 function initEvent() {
   document.addEventListener("keydown", KeyPressed);
-
   document.addEventListener("keyup", KeyUp);
 
   // escucho el evento cuando presionan la tecla
@@ -58,7 +57,7 @@ function initEvent() {
   // escucho el evento cuando sueltan la tecla
   function KeyUp(event) {
     const { key } = event;
-    if (key == "Right" || key == "ArrowRigth") {
+    if (key == "Right" || key == "ArrowRight") {
       paddletRight = false;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
@@ -86,7 +85,14 @@ function ballMoveement() {
   x += dx;
   y += dy;
 }
-function paddleMovemeent() {}
+function paddleMovemeent() {
+  if (paddletRight){
+    paddleX += 2
+  }else if (paddletLeft){
+    paddleX -= 2
+  }
+
+}
 
 function clearDraw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
