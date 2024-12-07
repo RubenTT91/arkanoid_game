@@ -48,7 +48,7 @@ function initEvent() {
   // escucho el evento cuando presionan la tecla
   function KeyPressed(event) {
     const { key } = event;
-    if (key == "Right" || key == "ArrowRight") {
+    if (key == "Right" || key == "ArrowRigth") {
       paddletRight = true;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
@@ -57,7 +57,7 @@ function initEvent() {
   // escucho el evento cuando sueltan la tecla
   function KeyUp(event) {
     const { key } = event;
-    if (key == "Right" || key == "ArrowRight") {
+    if (key == "Right" || key == "ArrowRigth") {
       paddletRight = false;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
