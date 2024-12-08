@@ -7,6 +7,7 @@ canvas.heigth = 400;
 
 // variables de la pelota
 const ballRadius = 2;
+const VELOCITY = 1;
 let x = canvas.width / 2;
 let y = canvas.heigth - 250;
 
@@ -30,14 +31,15 @@ function drawBall() {
 
 // Variables del paddlet
 const paddletHeigh = 5;
-const paddletWith = 30;
-let paddleX = (canvas.width - paddletWith) / 2;
+const paddletWidth = 30;
+let paddleX = (canvas.width - paddletWidth) / 2;
 let paddley = canvas.height - paddletHeigh - 5;
-// se creo conexión con Equipo corporativo
+
+
 //Dibujar paddlet o recuadro
 function drawPaddle() {
   ctx.fillStyle = "red";
-  ctx.fillRect(paddleX, paddley, paddletWith, paddletHeigh);
+  ctx.fillRect(paddleX, paddley, paddletWidth, paddletHeigh);
 }
 function drawBricks() {}
 function drawBricks() {}
@@ -87,10 +89,12 @@ function ballMoveement() {
   y += dy;
 }
 function paddleMovemeent() {
-  if (paddletRight){
-    paddleX += 15
-  }else if (paddletLeft){
-    paddleX -= PADDLET_SENSIBILITY
+
+  if (paddletRight && paddleX < canvas.width - paddletWidth){
+    paddleX += 3
+    console.log(paddleX, "posición X, ", canvas.width, ": canvas" );
+  }else if (paddletLeft && paddleX >0){
+    paddleX -= 3
   }
 
 }
@@ -105,15 +109,14 @@ function draw() {
   //funciones para dibujar
   clearDraw();
   drawBall();
-  //console.log("hola mundo")
   drawPaddle();
-  drawBricks();
+  //console.log("hola mundo")
+  //drawBricks();
 
   // Coliciones
-  collisionDetection();
+  //collisionDetection();
   ballMoveement();
   paddleMovemeent();
-
   window.requestAnimationFrame(draw); //Es un metodo que programa una función para que se ejecute antes de que se antes de que se refresque la ventana. Es un loop infinito
 }
 
