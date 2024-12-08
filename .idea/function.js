@@ -14,6 +14,7 @@ let y = canvas.heigth - 250;
 
 let paddletLeft = false;
 let paddletRight = false;
+const PADDLET_SENSIBILITY = 15;
 
 // velocidad de la pelota
 let dx = 2;
@@ -57,7 +58,7 @@ function initEvent() {
   // escucho el evento cuando sueltan la tecla
   function KeyUp(event) {
     const { key } = event;
-    if (key == "Right" || key == "ArrowRigth") {
+    if (key == "Rigth" || key == "ArrowRigth") {
       paddletRight = false;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
@@ -87,9 +88,9 @@ function ballMoveement() {
 }
 function paddleMovemeent() {
   if (paddletRight){
-    paddleX += 2
+    paddleX += 15
   }else if (paddletLeft){
-    paddleX -= 2
+    paddleX -= PADDLET_SENSIBILITY
   }
 
 }
