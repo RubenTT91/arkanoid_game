@@ -5,21 +5,22 @@ const ctx = canvas.getContext("2d"); // se selecciona para que renderice en 2d
 canvas.width = 448;
 canvas.heigth = 400;
 
+
 // variables de la pelota
 const ballRadius = 2;
-const VELOCITY = 1;
+const VELOCITY =2;
 let x = canvas.width / 2;
-let y = canvas.heigth - 250;
+let y = canvas.heigth - 265;
+
 
 // variables del paddlet
-
 let paddletLeft = false;
 let paddletRight = false;
-const PADDLET_SENSIBILITY = 15;
+const PADDLET_SENSIBILITY = 8;
 
 // velocidad de la pelota
-let dx = 2;
-let dy = -2;
+let dx = VELOCITY;
+let dy = -VELOCITY;
 
 function drawBall() {
   ctx.beginPath();
@@ -30,7 +31,7 @@ function drawBall() {
 }
 
 // Variables del paddlet
-const paddletHeigh = 5;
+const paddletHeigh = 7;
 const paddletWidth = 30;
 let paddleX = (canvas.width - paddletWidth) / 2;
 let paddley = canvas.height - paddletHeigh - 5;
@@ -41,17 +42,17 @@ function drawPaddle() {
   ctx.fillStyle = "red";
   ctx.fillRect(paddleX, paddley, paddletWidth, paddletHeigh);
 }
+
 function drawBricks() {}
 function drawBricks() {}
 
 function initEvent() {
   document.addEventListener("keydown", KeyPressed);
   document.addEventListener("keyup", KeyUp);
-
   // escucho el evento cuando presionan la tecla
   function KeyPressed(event) {
     const { key } = event;
-    if (key == "Right" || key == "ArrowRigth") {
+    if (key == "Right" || key == "ArrowRight") {
       paddletRight = true;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
@@ -60,7 +61,7 @@ function initEvent() {
   // escucho el evento cuando sueltan la tecla
   function KeyUp(event) {
     const { key } = event;
-    if (key == "Rigth" || key == "ArrowRigth") {
+    if (key == "Right" || key == "ArrowRight") {
       paddletRight = false;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
@@ -79,24 +80,30 @@ function ballMoveement() {
   if (y + dy < ballRadius) {
     dy = -dy;
   }
-
-  //Colision de juego terminado porque toca el suelo
   
-  if (y + dy > canvas.height) {
+  // confirma si el paddlet esta tocando la pelota
+  const IS_SAME_X = 
+  x > paddleX && 
+  x < (paddleX + paddletWidth)
+  const IS_SAME_Y = (y + dy) >  paddley- (paddletHeigh/2)
+  
+  //Colision de juego terminado porque toca el suelo
+  if(IS_SAME_X && IS_SAME_Y){
+    dy = -dy // cambiamos la dirección de la pelota
+  }else if(y + dy > canvas.height){
     document.location.reload();
   }
   x += dx;
   y += dy;
 }
 function paddleMovemeent() {
-
-  if (paddletRight && paddleX < canvas.width - paddletWidth){
-    paddleX += 3
-    console.log(paddleX, "posición X, ", canvas.width, ": canvas" );
-  }else if (paddletLeft && paddleX >0){
-    paddleX -= 3
+  if (paddletRight && paddleX< canvas.width - paddletWidth- ballRadius){
+    console.log(paddleX);
+    paddleX += PADDLET_SENSIBILITY
   }
-
+  if (paddletLeft && paddleX >0+ballRadius){
+    paddleX -= PADDLET_SENSIBILITY
+  }
 }
 
 function clearDraw() {
@@ -104,13 +111,11 @@ function clearDraw() {
 }
 
 function draw() {
-  console.log(paddletLeft, paddletRight);
 
   //funciones para dibujar
   clearDraw();
   drawBall();
   drawPaddle();
-  //console.log("hola mundo")
   //drawBricks();
 
   // Coliciones
