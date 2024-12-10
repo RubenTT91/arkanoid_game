@@ -1,128 +1,105 @@
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d"); // se selecciona para que renderice en 2d
+const ctx = canvas.getContext("2d");
 
-// tamaño de canvas
+// Tamaño del canvas
 canvas.width = 448;
-canvas.heigth = 400;
+canvas.height = 400; // Cambia "heigth" por "height"
 
+// Variables del paddlet
+const paddletHeight = 7;
+const paddletWidth = 30;
+let paddleX = (canvas.width - paddletWidth) / 2;
+let paddleY = canvas.height - paddletHeight - 5;
 
-// variables de la pelota
+//Variables de pelota
+let X = canvas.width / 2;
+let Y = paddleY - paddletHeight;
 const ballRadius = 2;
-const VELOCITY =2;
-let x = canvas.width / 2;
-let y = canvas.heigth - 265;
+const VELOCITY_BALL = 2;
 
+//Velicidad pelota
+let dx = VELOCITY_BALL;
+let dy = -VELOCITY_BALL;
 
-// variables del paddlet
-let paddletLeft = false;
+// Imagen del paddlet
+const $spritePaddlet = document.querySelector("#paddlet");
 let paddletRight = false;
-const PADDLET_SENSIBILITY = 8;
+let paddletLeft = false;
+const VELOCITY_PADDLET = 5;
 
-// velocidad de la pelota
-let dx = VELOCITY;
-let dy = -VELOCITY;
+// Dibuja el paddlet
+function drawPaddle() {
+  ctx.fillStyle = "white";
+  ctx.fillRect(paddleX, paddleY, paddletWidth, paddletHeight);
+}
 
-function drawBall() {
+function drawCircle() {
   ctx.beginPath();
-  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+  ctx.arc(X, Y, ballRadius, 0, Math.PI * 2);
   ctx.fillStyle = "#eee";
   ctx.fill();
   ctx.closePath();
 }
-
-// Variables del paddlet
-const paddletHeigh = 7;
-const paddletWidth = 30;
-let paddleX = (canvas.width - paddletWidth) / 2;
-let paddley = canvas.height - paddletHeigh - 5;
-
-
-//Dibujar paddlet o recuadro
-function drawPaddle() {
-  ctx.fillStyle = "red";
-  ctx.fillRect(paddleX, paddley, paddletWidth, paddletHeigh);
+function ballMovement() {
+  X += dx;
+  Y += dy;
 }
 
-function drawBricks() {}
-function drawBricks() {}
+function collisions() {
+  if (X + dy > canvas.width - ballRadius || X + dx < 0) {
+    dx = -dx;
+  }
+  if (Y + dy < 0) {
+    dy = -dy;
+  }
+  if (Y + dy > 400) {
+    document.location.reload();
+  }
+}
 
 function initEvent() {
-  document.addEventListener("keydown", KeyPressed);
-  document.addEventListener("keyup", KeyUp);
-  // escucho el evento cuando presionan la tecla
-  function KeyPressed(event) {
+  document.addEventListener("keydown", keyPressed);
+  document.addEventListener("keyup", keyup);
+
+  function keyPressed(event) {
     const { key } = event;
     if (key == "Right" || key == "ArrowRight") {
       paddletRight = true;
+      console.log(key);
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
+      console.log(key);
     }
   }
-  // escucho el evento cuando sueltan la tecla
-  function KeyUp(event) {
+  function keyup(event) {
     const { key } = event;
     if (key == "Right" || key == "ArrowRight") {
       paddletRight = false;
+      console.log(key);
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
+      console.log(key);
     }
   }
 }
-
-function collisionDetection() {
-}
-
-function ballMoveement() {
-  
-  if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-    dx = -dx;
-  }
-  if (y + dy < ballRadius) {
-    dy = -dy;
-  }
-  
-  // confirma si el paddlet esta tocando la pelota
-  const IS_SAME_X = 
-  x > paddleX && 
-  x < (paddleX + paddletWidth)
-  const IS_SAME_Y = (y + dy) >  paddley- (paddletHeigh/2)
-  
-  //Colision de juego terminado porque toca el suelo
-  if(IS_SAME_X && IS_SAME_Y){
-    dy = -dy // cambiamos la dirección de la pelota
-  }else if(y + dy > canvas.height){
-    document.location.reload();
-  }
-  x += dx;
-  y += dy;
-}
-function paddleMovemeent() {
-  if (paddletRight && paddleX< canvas.width - paddletWidth- ballRadius){
-    console.log(paddleX);
-    paddleX += PADDLET_SENSIBILITY
-  }
-  if (paddletLeft && paddleX >0+ballRadius){
-    paddleX -= PADDLET_SENSIBILITY
+function paddletMovement() {
+  if (paddletRight && paddleX < canvas.width - paddletWidth) {
+    paddleX += VELOCITY_PADDLET;
+  } else if (paddletLeft && paddleX > ballRadius) {
+    paddleX -= VELOCITY_PADDLET;
+    
   }
 }
 
-function clearDraw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
+// Lógica de dibujo
 function draw() {
-
-  //funciones para dibujar
-  clearDraw();
-  drawBall();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawPaddle();
-  //drawBricks();
-
-  // Coliciones
-  //collisionDetection();
-  ballMoveement();
-  paddleMovemeent();
-  window.requestAnimationFrame(draw); //Es un metodo que programa una función para que se ejecute antes de que se antes de que se refresque la ventana. Es un loop infinito
+  requestAnimationFrame(draw);
+  drawCircle();
+  ballMovement();
+  paddletMovement();
+  collisions();
 }
 
 draw();
