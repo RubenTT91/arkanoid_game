@@ -82,12 +82,12 @@ function initEvent() {
     }
   }
 }
+// se agrega el movimiento del paddlet y sus limites
 function paddletMovement() {
   if (paddletRight && paddleX < canvas.width - paddletWidth) {
     paddleX += VELOCITY_PADDLET;
   } else if (paddletLeft && paddleX > ballRadius) {
-    paddleX -= VELOCITY_PADDLET;
-    
+    paddleX -= VELOCITY_PADDLET;    
   }
 }
 
