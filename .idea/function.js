@@ -1,5 +1,6 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const bordeCanvas = 3.5;
 
 // Tamaño del canvas
 canvas.width = 448;
@@ -46,15 +47,17 @@ function ballMovement() {
 }
 
 function collisions() {
-  if (X + dy > canvas.width - ballRadius || X + dx < 0) {
+  if (X + dy > canvas.width - bordeCanvas || X + dx < 0) {
     dx = -dx;
   }
   if (Y + dy < 0) {
     dy = -dy;
   }
-  if (Y + dy > 400) {
+  if(Y+dy > canvas.height)
+  {
     document.location.reload();
   }
+
 }
 
 function initEvent() {
@@ -84,9 +87,9 @@ function initEvent() {
 }
 // se agrega el movimiento del paddlet y sus limites
 function paddletMovement() {
-  if (paddletRight && paddleX < canvas.width - paddletWidth) {
+  if (paddletRight && paddleX < canvas.width - (bordeCanvas+paddletWidth)) {
     paddleX += VELOCITY_PADDLET;
-  } else if (paddletLeft && paddleX > ballRadius) {
+  } else if (paddletLeft && paddleX > bordeCanvas) {
     paddleX -= VELOCITY_PADDLET;    
   }
 }
