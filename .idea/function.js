@@ -3,12 +3,12 @@ const ctx = canvas.getContext("2d"); // se selecciona para que renderice en 2d
 
 // tamaño de canvas
 canvas.width = 448;
-canvas.heigth = 400;
+canvas.height = 400;
 
 // variables de la pelota
 const ballRadius = 2;
 let x = canvas.width / 2;
-let y = canvas.heigth - 250;
+let y = canvas.height - 250;
 
 // variables del paddlet
 
