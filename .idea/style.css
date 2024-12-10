@@ -3,8 +3,7 @@ body{
     
 }
 
-canvas{
-    
+canvas{    
         border: 10px solid transparent; 
         border-image-source: url('src/sprites/LADRILLO2.png'); 
         border-image-slice: 20; 
@@ -13,6 +12,5 @@ canvas{
         background-size:20px 20px; 
         background: url("src/sprites/ladrillo3.png");
         margin: 10px auto;
-        display: block;
-    
+        display: block;    
 }
