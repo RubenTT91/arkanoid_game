@@ -8,7 +8,7 @@ canvas.height = 400; // Cambia "heigth" por "height"
 
 // Variables del paddlet
 const paddletHeight = 7;
-const paddletWidth = 30;
+const paddletWidth = 60;
 let paddleX = (canvas.width - paddletWidth) / 2;
 let paddleY = canvas.height - paddletHeight - 5;
 
@@ -47,16 +47,24 @@ function ballMovement() {
 }
 
 function collisions() {
+
+  const X_SAME_PADDLET =   X > paddleX && X < (paddleX + paddletWidth)
+  
+  const Y_SAME_PADDLET =  Y+dy > paddleY
+
   if (X + dy > canvas.width - bordeCanvas || X + dx < 0) {
     dx = -dx;
   }
   if (Y + dy < 0) {
     dy = -dy;
   }
-  if(Y+dy > canvas.height)
+if(X_SAME_PADDLET && Y_SAME_PADDLET){
+  dy = -dy
+}else if(Y+dy > canvas.height)
   {
     document.location.reload();
   }
+
 
 }
 
