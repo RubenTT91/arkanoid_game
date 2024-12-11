@@ -1,37 +1,48 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
+const $imgPaddlet= document.querySelector('#paddlet');
+const $imgBricks = document.querySelector('#bricket');
 const bordeCanvas = 3.5;
 
 // Tamaño del canvas
-canvas.width = 448;
+canvas.width = 600;
 canvas.height = 400; // Cambia "heigth" por "height"
 
 // Variables del paddlet
 const paddletHeight = 7;
 const paddletWidth = 60;
 let paddleX = (canvas.width - paddletWidth) / 2;
-let paddleY = canvas.height - paddletHeight - 5;
+let paddleY = canvas.height - paddletHeight - 10;
 
 //Variables de pelota
 let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
-const ballRadius = 2;
-const VELOCITY_BALL = 2;
+const ballRadius = 3;
+const VELOCITY_BALL = 0.1;
 
 //Velicidad pelota
 let dx = VELOCITY_BALL;
 let dy = -VELOCITY_BALL;
 
 // Imagen del paddlet
-const $spritePaddlet = document.querySelector("#paddlet");
 let paddletRight = false;
 let paddletLeft = false;
 const VELOCITY_PADDLET = 5;
 
 // Dibuja el paddlet
 function drawPaddle() {
-  ctx.fillStyle = "white";
-  ctx.fillRect(paddleX, paddleY, paddletWidth, paddletHeight);
+  
+  ctx.drawImage(
+    $imgPaddlet,
+    0,
+    200,
+    98,
+    26,
+    paddleX,
+    paddleY,
+    70,
+    20
+  )
 }
 
 function drawCircle() {
@@ -48,11 +59,10 @@ function ballMovement() {
 
 function collisions() {
 
-  const X_SAME_PADDLET =   X > paddleX && X < (paddleX + paddletWidth)
-  
+  const X_SAME_PADDLET =   X > paddleX && X < (paddleX + paddletWidth)  
   const Y_SAME_PADDLET =  Y+dy > paddleY
 
-  if (X + dy > canvas.width - bordeCanvas || X + dx < 0) {
+  if (X + dy > canvas.width -paddleX|| X + dx < 0) {
     dx = -dx;
   }
   if (Y + dy < 0) {
