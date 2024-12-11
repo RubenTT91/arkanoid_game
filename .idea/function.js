@@ -2,7 +2,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const $imgPaddlet= document.querySelector('#paddlet');
 const $imgBricks = document.querySelector('#bricket');
-const bordeCanvas = 3.5;
+const bordeCanvas = 13;
 
 // Tamaño del canvas
 canvas.width = 600;
@@ -18,7 +18,7 @@ let paddleY = canvas.height - paddletHeight - 10;
 let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
 const ballRadius = 3;
-const VELOCITY_BALL = 0.1;
+const VELOCITY_BALL = 4;
 
 //Velicidad pelota
 let dx = VELOCITY_BALL;
@@ -60,10 +60,11 @@ function ballMovement() {
 function collisions() {
 
   const X_SAME_PADDLET =   X > paddleX && X < (paddleX + paddletWidth)  
-  const Y_SAME_PADDLET =  Y+dy > paddleY
+  const Y_SAME_PADDLET =   Y + dy > paddleY
 
-  if (X + dy > canvas.width -paddleX|| X + dx < 0) {
-    dx = -dx;
+  
+  if (X + dy > (canvas.width) || X + dx < 0) {
+    dx = -dx; 
   }
   if (Y + dy < 0) {
     dy = -dy;
@@ -86,28 +87,24 @@ function initEvent() {
     const { key } = event;
     if (key == "Right" || key == "ArrowRight") {
       paddletRight = true;
-      console.log(key);
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
-      console.log(key);
     }
   }
   function keyup(event) {
     const { key } = event;
     if (key == "Right" || key == "ArrowRight") {
       paddletRight = false;
-      console.log(key);
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = false;
-      console.log(key);
     }
   }
 }
 // se agrega el movimiento del paddlet y sus limites
 function paddletMovement() {
-  if (paddletRight && paddleX < canvas.width - (bordeCanvas+paddletWidth)) {
+  if (paddletRight && paddleX <= canvas.width -(paddletWidth+bordeCanvas)) {
     paddleX += VELOCITY_PADDLET;
-  } else if (paddletLeft && paddleX > bordeCanvas) {
+  } else if (paddletLeft && paddleX) {
     paddleX -= VELOCITY_PADDLET;    
   }
 }

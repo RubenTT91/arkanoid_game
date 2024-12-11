@@ -4,7 +4,7 @@ body {
 }
 
 canvas {
-    border: 10px solid transparent;
+    border: 10px solid transparent;    
     border-image-source: url("src/sprites/LADRILLO2.png");
     border-image-slice: 20;
     border-image-repeat: repeat;
