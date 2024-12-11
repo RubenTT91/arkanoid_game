@@ -1,7 +1,7 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
-const $imgPaddlet= document.querySelector('#paddlet');
-const $imgBricks = document.querySelector('#bricket');
+const $imgPaddlet = document.querySelector("#paddlet");
+const $imgBricks = document.querySelector("#bricket");
 const bordeCanvas = 10;
 
 // Tamaño del canvas
@@ -18,11 +18,11 @@ let paddleY = canvas.height - paddletHeight - 10;
 let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
 const ballRadius = 3;
-const VELOCITY_BALL = 0.1;
 
 //Velicidad pelota
-let dx = VELOCITY_BALL;
-let dy = -VELOCITY_BALL;
+let velocity_ball = 1;
+let dx = velocity_ball;
+let dy = -velocity_ball;
 
 // Imagen del paddlet
 let paddletRight = false;
@@ -31,18 +31,7 @@ const VELOCITY_PADDLET = 5;
 
 // Dibuja el paddlet
 function drawPaddle() {
-  
-  ctx.drawImage(
-    $imgPaddlet,
-    0,
-    200,
-    98,
-    26,
-    paddleX,
-    paddleY,
-    70,
-    20
-  )
+  ctx.drawImage($imgPaddlet, 0, 200, 98, 26, paddleX, paddleY, 70, 20);
 }
 
 function drawCircle() {
@@ -58,40 +47,41 @@ function ballMovement() {
 }
 
 function collisions() {
+  const X_SAME_PADDLET = X > paddleX && X < paddleX + paddletWidth;
+  const Y_SAME_PADDLET = Y + dy > paddleY;
 
-  const X_SAME_PADDLET =   X > paddleX && X < (paddleX + paddletWidth)  
-  const Y_SAME_PADDLET =   Y + dy > paddleY
-
-  
-  if (X + dy > (canvas.width) || X + dx < 0) {
-    dx = -dx; 
+  if (X + dy > canvas.width || X + dx < 0) {
+    dx = -dx;
   }
   if (Y + dy < 0) {
     dy = -dy;
   }
-if(X_SAME_PADDLET && Y_SAME_PADDLET){
-  dy = -dy
-}else if(Y+dy > canvas.height)
-  {
+  if (X_SAME_PADDLET && Y_SAME_PADDLET) {
+    dy = -dy;
+  } else if (Y + dy > canvas.height) {
     document.location.reload();
   }
-
-
 }
 
 function initEvent() {
   document.addEventListener("keydown", keyPressed);
   document.addEventListener("keyup", keyup);
-  document.addEventListener('touchmove', touchScreen, {passive:true});
+  document.addEventListener("touchstart", touchScreen, { passive: true });
+  document.addEventListener("touchend", touchEnd, { passive: true });
 
-function touchScreen(event){
-  const coordenada = event.screenX ?? event.touches[0].pageX + 30;
-  if (coordenada>-10  && coordenada <= canvas.width - paddletWidth) {
-    paddleX = coordenada;
-  } 
-  
-    
-}
+  function touchScreen(event) {
+    let coordenada = Number(event.screenX ?? event.touches[0].pageX);
+    if (coordenada > canvas.width / 2) {
+      paddletRight = true;
+    } else if (coordenada < canvas.width / 2) {
+      paddletLeft = true;
+    }
+  }
+
+  function touchEnd() {
+    paddletLeft = false;
+    paddletRight = false;
+  }
 
   function keyPressed(event) {
     const { key } = event;
@@ -99,6 +89,13 @@ function touchScreen(event){
       paddletRight = true;
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
+    } else if (key == " NumpadAdd" || key == "+") {
+      dx +=0.5
+      dy += 0.5      
+
+    } else if (key == "NumpadSubtract" || (key == "-" && paddleX > 0)) {      
+      dx -=0.5
+      dy -= 0.5      
     }
   }
   function keyup(event) {
@@ -112,10 +109,10 @@ function touchScreen(event){
 }
 // se agrega el movimiento del paddlet y sus limites
 function paddletMovement() {
-  if (paddletRight && paddleX <= canvas.width -(paddletWidth+bordeCanvas)) {
+  if (paddletRight && paddleX <= canvas.width - (paddletWidth + bordeCanvas)) {
     paddleX += VELOCITY_PADDLET;
   } else if (paddletLeft && paddleX) {
-    paddleX -= VELOCITY_PADDLET;    
+    paddleX -= VELOCITY_PADDLET;
   }
 }
 
