@@ -2,11 +2,11 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const $imgPaddlet= document.querySelector('#paddlet');
 const $imgBricks = document.querySelector('#bricket');
-const bordeCanvas = 13;
+const bordeCanvas = 10;
 
 // Tamaño del canvas
-canvas.width = 600;
-canvas.height = 400; // Cambia "heigth" por "height"
+canvas.width = 700;
+canvas.height = 600;
 
 // Variables del paddlet
 const paddletHeight = 7;
@@ -18,7 +18,7 @@ let paddleY = canvas.height - paddletHeight - 10;
 let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
 const ballRadius = 3;
-const VELOCITY_BALL = 4;
+const VELOCITY_BALL = 0.1;
 
 //Velicidad pelota
 let dx = VELOCITY_BALL;
@@ -82,6 +82,14 @@ if(X_SAME_PADDLET && Y_SAME_PADDLET){
 function initEvent() {
   document.addEventListener("keydown", keyPressed);
   document.addEventListener("keyup", keyup);
+  document.addEventListener('touchmove', touchScreen, {passive:true});
+
+function touchScreen(event){
+  const coordenada = event.screenX ?? event.touches[0].pageX;
+  paddleX = coordenada;
+  
+    
+}
 
   function keyPressed(event) {
     const { key } = event;
