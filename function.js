@@ -85,8 +85,10 @@ function initEvent() {
   document.addEventListener('touchmove', touchScreen, {passive:true});
 
 function touchScreen(event){
-  const coordenada = event.screenX ?? event.touches[0].pageX;
-  paddleX = coordenada;
+  const coordenada = event.screenX ?? event.touches[0].pageX + 30;
+  if (coordenada>-10  && coordenada <= canvas.width - paddletWidth) {
+    paddleX = coordenada;
+  } 
   
     
 }
