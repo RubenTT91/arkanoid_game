@@ -13,14 +13,48 @@ const paddletHeight = 7;
 const paddletWidth = 60;
 let paddleX = (canvas.width - paddletWidth) / 2;
 let paddleY = canvas.height - paddletHeight - 10;
-
-//Variables de pelota
 let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
-const ballRadius = 3;
+
+// variables de los ladrillos
+const LADRILLO_COLUM = 7;
+const LADRILLO_ROW = 12;
+const LADRILLO_ESPACIADO = 2;
+const LADRILLO_ALTO = 15;
+const LADRILLO_ANCHO = 90
+const OFFSET_TOP = 50;
+const OFFSET_LEFT = 25;
+const LADRILLOS = [];
+const ESTADO_LADRILLO = {
+  activo: 1,
+  destruido: 0
+};
+
+
+/**Se crean las variables de los ladrillos y se asignan uno a uno a cada
+ * espacio d ela matriz [][]
+*/
+for (let c = 0; c < LADRILLO_COLUM; c++) {
+  LADRILLOS[c] = []; // inicializamos con un Arreglo vacio
+  for (let r = 0; r < LADRILLO_ROW; r++) {
+    // Calculamos la posición de inicio de cada ladrillo tanto alto como ancho
+    const LADRILLO_X = c * (LADRILLO_ANCHO + LADRILLO_ESPACIADO) + OFFSET_LEFT;
+    const LADRILLO_Y = r * (LADRILLO_ALTO + LADRILLO_ESPACIADO) + OFFSET_TOP;
+    // Asignamos las variables para luego usar colores luego
+    const random = Math.floor(Math.random() * 8);
+    LADRILLOS[c][r] = {
+      xL: LADRILLO_X,
+      yL: LADRILLO_Y,
+      brickStatus: ESTADO_LADRILLO.activo,
+      color: random,
+    };
+    console.log(LADRILLOS.color);
+  }
+}
 
 //Velicidad pelota
-let velocity_ball = 1;
+const ballRadius = 3;
+let velocity_ball = 0.5;
 let dx = velocity_ball;
 let dy = -velocity_ball;
 
@@ -31,7 +65,17 @@ const VELOCITY_PADDLET = 5;
 
 // Dibuja el paddlet
 function drawPaddle() {
-  ctx.drawImage($imgPaddlet, 0, 200, 98, 26, paddleX, paddleY, 70, 20);
+  ctx.drawImage(
+    $imgPaddlet, // imagen que se selecciona
+    0, // origen X para inicio del sprite
+    200, // origen Y para inicio del sprite
+    98, // Ancho del recorte que se va a tomar
+    26, // alto del recorte que se va a tomar
+    paddleX, // ubicación X de la imagen
+    paddleY, // ubicación Y de la imagen
+    70, // Ancho final del dibujo
+    20
+  ); // Alto final del dibujo
 }
 
 function drawCircle() {
@@ -41,6 +85,41 @@ function drawCircle() {
   ctx.fill();
   ctx.closePath();
 }
+
+function drawBricks() {
+/**Se usa el mismo for, pero esta vez para 
+ * rellenar y crear ladrillo por ladrillo, tomando las variables que anteriormente 
+ * se crearon en el anterior for
+ */
+
+const color= [
+  "yellow",
+  "blue",
+  "green",
+  "white",
+  "black",
+  "red",
+  "pink",
+  "purple"
+]
+  for (let c = 0; c < LADRILLO_COLUM; c++) {    
+    for (let r = 0; r < LADRILLO_ROW; r++) {      
+      const LADRILLO_ACTUAL = LADRILLOS[c][r];      
+      console.log(LADRILLO_ACTUAL.brickStatus);      
+      if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
+        continue;
+      }
+      ctx.fillStyle = color[LADRILLO_ACTUAL.color];
+      ctx.rect(
+        LADRILLO_ACTUAL.xL, 
+        LADRILLO_ACTUAL.yL, 
+        LADRILLO_ANCHO, 
+        LADRILLO_ALTO);
+      ctx.fill();
+    }
+  }
+}
+
 function ballMovement() {
   X += dx;
   Y += dy;
@@ -90,12 +169,11 @@ function initEvent() {
     } else if (key == "Left" || key == "ArrowLeft") {
       paddletLeft = true;
     } else if (key == " NumpadAdd" || key == "+") {
-      dx +=0.5
-      dy += 0.5      
-
-    } else if (key == "NumpadSubtract" || (key == "-" && paddleX > 0)) {      
-      dx -=0.5
-      dy -= 0.5      
+      dx += 0.5;
+      dy += 0.5;
+    } else if (key == "NumpadSubtract" || (key == "-" && paddleX > 0)) {
+      dx -= 0.5;
+      dy -= 0.5;
     }
   }
   function keyup(event) {
@@ -125,6 +203,7 @@ function draw() {
   ballMovement();
   paddletMovement();
   collisions();
+  drawBricks();
 }
 
 draw();
