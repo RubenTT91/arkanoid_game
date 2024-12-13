@@ -17,8 +17,8 @@ let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
 
 // variables de los ladrillos
-const LADRILLO_COLUM = 7;
-const LADRILLO_ROW = 12;
+const LADRILLO_COLUM = 5;
+const LADRILLO_ROW = 10;
 const LADRILLO_ESPACIADO = 2;
 const LADRILLO_ALTO = 15;
 const LADRILLO_ANCHO = 90
@@ -41,14 +41,14 @@ for (let c = 0; c < LADRILLO_COLUM; c++) {
     const LADRILLO_X = c * (LADRILLO_ANCHO + LADRILLO_ESPACIADO) + OFFSET_LEFT;
     const LADRILLO_Y = r * (LADRILLO_ALTO + LADRILLO_ESPACIADO) + OFFSET_TOP;
     // Asignamos las variables para luego usar colores luego
-    const random = Math.floor(Math.random() * 8);
+    const random = Math.floor(Math.random()* 8);
+    console.log(LADRILLOS.color);
     LADRILLOS[c][r] = {
       xL: LADRILLO_X,
       yL: LADRILLO_Y,
       brickStatus: ESTADO_LADRILLO.activo,
       color: random,
     };
-    console.log(LADRILLOS.color);
   }
 }
 
