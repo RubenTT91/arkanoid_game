@@ -91,7 +91,6 @@ function drawBricks() {
  * rellenar y crear ladrillo por ladrillo, tomando las variables que anteriormente 
  * se crearon en el anterior for
  */
-
 const color= [
   "yellow",
   "blue",
@@ -109,7 +108,7 @@ const color= [
       if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
         continue;
       }
-      ctx.fillStyle = color[LADRILLO_ACTUAL.color];
+      ctx.fillStyle = color[LADRILLO_ACTUAL[c][r].color];
       ctx.rect(
         LADRILLO_ACTUAL.xL, 
         LADRILLO_ACTUAL.yL, 
