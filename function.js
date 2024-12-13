@@ -95,42 +95,21 @@ function drawBricks() {
   for (let c = 0; c < LADRILLO_COLUM; c++) {    
     for (let r = 0; r < LADRILLO_ROW; r++) {      
       const LADRILLO_ACTUAL = LADRILLOS[c][r];      
-      console.log(LADRILLO_ACTUAL.brickStatus);      
       if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
         continue;
-      }
-/** 
- * ctx.drawImage(
-    $imgPaddlet, // imagen que se selecciona
-    0, // origen X para inicio del sprite
-    200, // origen Y para inicio del sprite
-    98, // Ancho del recorte que se va a tomar
-    26, // alto del recorte que se va a tomar
-    paddleX, // ubicación X de la imagen
-    paddleY, // ubicación Y de la imagen
-    70, // Ancho final del dibujo
-    20
-  ); // Alto final del dibujo*/
-  // ctx.fillStyle = "purple";
+      }  
   // ctx.rect(
   //   LADRILLO_ACTUAL.xL, 
   //   LADRILLO_ACTUAL.yL, 
   //   LADRILLO_ANCHO, 
   //   LADRILLO_ALTO);
   // ctx.fill();
-const anchoCambio = LADRILLO_ACTUAL.color * 55 
-      ctx.drawImage(
-        $imgBricks,
-        anchoCambio,
-        0,
-        55,
-        28,
-        LADRILLO_ACTUAL.xL,
-        LADRILLO_ACTUAL.yL,
-        LADRILLO_ANCHO,
-        LADRILLO_ALTO
-        
-      )
+  const anchoCambio = LADRILLO_ACTUAL.color * 55 
+  ctx.drawImage(
+    $imgBricks,
+    0,
+    anchoCambio)
+      
     }
   }
 }
