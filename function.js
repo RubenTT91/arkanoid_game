@@ -17,13 +17,13 @@ let X = canvas.width / 2;
 let Y = paddleY - paddletHeight;
 
 // variables de los ladrillos
-const LADRILLO_COLUM = 5;
+const LADRILLO_COLUM = 8;
 const LADRILLO_ROW = 10;
-const LADRILLO_ESPACIADO = 2;
+const LADRILLO_ESPACIADO = 5;
 const LADRILLO_ALTO = 15;
-const LADRILLO_ANCHO = 90
+const LADRILLO_ANCHO = 70
 const OFFSET_TOP = 50;
-const OFFSET_LEFT = 25;
+const OFFSET_LEFT = 50;
 const LADRILLOS = [];
 const ESTADO_LADRILLO = {
   activo: 1,
@@ -91,16 +91,7 @@ function drawBricks() {
  * rellenar y crear ladrillo por ladrillo, tomando las variables que anteriormente 
  * se crearon en el anterior for
  */
-const color= [
-  "yellow",
-  "blue",
-  "green",
-  "white",
-  "black",
-  "red",
-  "pink",
-  "purple"
-]
+
   for (let c = 0; c < LADRILLO_COLUM; c++) {    
     for (let r = 0; r < LADRILLO_ROW; r++) {      
       const LADRILLO_ACTUAL = LADRILLOS[c][r];      
@@ -108,13 +99,38 @@ const color= [
       if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
         continue;
       }
-      ctx.fillStyle = color[LADRILLO_ACTUAL[c][r].color];
-      ctx.rect(
-        LADRILLO_ACTUAL.xL, 
-        LADRILLO_ACTUAL.yL, 
-        LADRILLO_ANCHO, 
-        LADRILLO_ALTO);
-      ctx.fill();
+/** 
+ * ctx.drawImage(
+    $imgPaddlet, // imagen que se selecciona
+    0, // origen X para inicio del sprite
+    200, // origen Y para inicio del sprite
+    98, // Ancho del recorte que se va a tomar
+    26, // alto del recorte que se va a tomar
+    paddleX, // ubicación X de la imagen
+    paddleY, // ubicación Y de la imagen
+    70, // Ancho final del dibujo
+    20
+  ); // Alto final del dibujo*/
+  // ctx.fillStyle = "purple";
+  // ctx.rect(
+  //   LADRILLO_ACTUAL.xL, 
+  //   LADRILLO_ACTUAL.yL, 
+  //   LADRILLO_ANCHO, 
+  //   LADRILLO_ALTO);
+  // ctx.fill();
+const anchoCambio = LADRILLO_ACTUAL.color * 55 
+      ctx.drawImage(
+        $imgBricks,
+        anchoCambio,
+        0,
+        55,
+        28,
+        LADRILLO_ACTUAL.xL,
+        LADRILLO_ACTUAL.yL,
+        LADRILLO_ANCHO,
+        LADRILLO_ALTO
+        
+      )
     }
   }
 }
