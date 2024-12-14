@@ -21,19 +21,18 @@ const LADRILLO_COLUM = 8;
 const LADRILLO_ROW = 10;
 const LADRILLO_ESPACIADO = 5;
 const LADRILLO_ALTO = 15;
-const LADRILLO_ANCHO = 70
+const LADRILLO_ANCHO = 70;
 const OFFSET_TOP = 50;
 const OFFSET_LEFT = 50;
 const LADRILLOS = [];
 const ESTADO_LADRILLO = {
   activo: 1,
-  destruido: 0
+  destruido: 0,
 };
-
 
 /**Se crean las variables de los ladrillos y se asignan uno a uno a cada
  * espacio d ela matriz [][]
-*/
+ */
 for (let c = 0; c < LADRILLO_COLUM; c++) {
   LADRILLOS[c] = []; // inicializamos con un Arreglo vacio
   for (let r = 0; r < LADRILLO_ROW; r++) {
@@ -41,7 +40,7 @@ for (let c = 0; c < LADRILLO_COLUM; c++) {
     const LADRILLO_X = c * (LADRILLO_ANCHO + LADRILLO_ESPACIADO) + OFFSET_LEFT;
     const LADRILLO_Y = r * (LADRILLO_ALTO + LADRILLO_ESPACIADO) + OFFSET_TOP;
     // Asignamos las variables para luego usar colores luego
-    const random = Math.floor(Math.random()* 8);
+    const random = Math.floor(Math.random() * 8);
     console.log(LADRILLOS.color);
     LADRILLOS[c][r] = {
       xL: LADRILLO_X,
@@ -87,29 +86,23 @@ function drawCircle() {
 }
 
 function drawBricks() {
-/**Se usa el mismo for, pero esta vez para 
- * rellenar y crear ladrillo por ladrillo, tomando las variables que anteriormente 
- * se crearon en el anterior for
- */
+  /**Se usa el mismo for, pero esta vez para
+   * rellenar y crear ladrillo por ladrillo, tomando las variables que anteriormente
+   * se crearon en el anterior for
+   */
 
-  for (let c = 0; c < LADRILLO_COLUM; c++) {    
-    for (let r = 0; r < LADRILLO_ROW; r++) {      
-      const LADRILLO_ACTUAL = LADRILLOS[c][r];      
+  for (let c = 0; c < LADRILLO_COLUM; c++) {
+    for (let r = 0; r < LADRILLO_ROW; r++) {
+      const LADRILLO_ACTUAL = LADRILLOS[c][r];
       if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
         continue;
-      }  
-  // ctx.rect(
-  //   LADRILLO_ACTUAL.xL, 
-  //   LADRILLO_ACTUAL.yL, 
-  //   LADRILLO_ANCHO, 
-  //   LADRILLO_ALTO);
-  // ctx.fill();
-  const anchoCambio = LADRILLO_ACTUAL.color * 55 
-  ctx.drawImage(
-    $imgBricks,
-    0,
-    anchoCambio)
-      
+      }
+      const anchoCambio = LADRILLO_ACTUAL.color * 55;
+      ctx.drawImage(
+        $imgPaddlet,
+        110,
+        10
+      )
     }
   }
 }
