@@ -10,7 +10,7 @@ canvas.height = 600;
 
 // Variables del paddlet
 const paddletHeight = 7;
-const paddletWidth = 60;
+let paddletWidth = 70;
 let paddleX = (canvas.width - paddletWidth) / 2;
 let paddleY = canvas.height - paddletHeight - 10;
 let X = canvas.width / 2;
@@ -18,12 +18,12 @@ let Y = paddleY - paddletHeight;
 
 // variables de los ladrillos
 const LADRILLO_COLUM = 8;
-const LADRILLO_ROW = 10;
+const LADRILLO_ROW = 6;
 const LADRILLO_ESPACIADO = 5;
-const LADRILLO_ALTO = 15;
-const LADRILLO_ANCHO = 70;
+const LADRILLO_ALTO = 20;
+const LADRILLO_ANCHO = 75;
 const OFFSET_TOP = 50;
-const OFFSET_LEFT = 50;
+const OFFSET_LEFT = 35;
 const LADRILLOS = [];
 const ESTADO_LADRILLO = {
   activo: 1,
@@ -41,7 +41,6 @@ for (let c = 0; c < LADRILLO_COLUM; c++) {
     const LADRILLO_Y = r * (LADRILLO_ALTO + LADRILLO_ESPACIADO) + OFFSET_TOP;
     // Asignamos las variables para luego usar colores luego
     const random = Math.floor(Math.random() * 8);
-    console.log(LADRILLOS.color);
     LADRILLOS[c][r] = {
       xL: LADRILLO_X,
       yL: LADRILLO_Y,
@@ -53,14 +52,14 @@ for (let c = 0; c < LADRILLO_COLUM; c++) {
 
 //Velicidad pelota
 const ballRadius = 3;
-let velocity_ball = 0.5;
+let velocity_ball = 1.5;
 let dx = velocity_ball;
 let dy = -velocity_ball;
 
 // Imagen del paddlet
 let paddletRight = false;
 let paddletLeft = false;
-const VELOCITY_PADDLET = 5;
+const VELOCITY_PADDLET = 8;
 
 // Dibuja el paddlet
 function drawPaddle() {
@@ -72,7 +71,7 @@ function drawPaddle() {
     26, // alto del recorte que se va a tomar
     paddleX, // ubicación X de la imagen
     paddleY, // ubicación Y de la imagen
-    70, // Ancho final del dibujo
+    paddletWidth, // Ancho final del dibujo
     20
   ); // Alto final del dibujo
 }
@@ -99,9 +98,15 @@ function drawBricks() {
       }
       const anchoCambio = LADRILLO_ACTUAL.color * 55;
       ctx.drawImage(
-        $imgPaddlet,
-        110,
-        10
+        $imgBricks,
+        anchoCambio,
+        0,
+        54,
+        28,
+        LADRILLO_ACTUAL.xL,
+        LADRILLO_ACTUAL.yL,
+        LADRILLO_ANCHO,
+        LADRILLO_ALTO
       )
     }
   }
@@ -123,7 +128,12 @@ function collisions() {
     dy = -dy;
   }
   if (X_SAME_PADDLET && Y_SAME_PADDLET) {
-    dy = -dy;
+    if(paddletRight || paddletLeft){
+      dx = -dx
+      dy = -dy;
+    } else{
+      dy = -dy
+    }
   } else if (Y + dy > canvas.height) {
     document.location.reload();
   }
@@ -181,6 +191,46 @@ function paddletMovement() {
   }
 }
 
+function collisionDetection(){
+ 
+  for (let c = 0; c < LADRILLO_COLUM; c++) {
+    for (let r = 0; r < LADRILLO_ROW; r++) {
+      const LADRILLO_ACTUAL = LADRILLOS[c][r];
+      if (LADRILLO_ACTUAL.brickStatus == ESTADO_LADRILLO.destruido) {
+        continue;
+      }
+
+      
+      const sameLadrilloX = 
+       X > LADRILLO_ACTUAL.xL 
+       && X < LADRILLO_ACTUAL.xL + LADRILLO_ANCHO;
+
+      const sameLadrilloY =
+       Y + dy > LADRILLO_ACTUAL.yL 
+       &&  Y < LADRILLO_ACTUAL.yL + LADRILLO_ALTO;
+
+      
+      
+      if(sameLadrilloX && sameLadrilloY){
+        
+       
+          paddletWidth -= 0.8       
+          dy += 0.2,
+          dx += 0.2           
+          dy = -dy        
+          LADRILLO_ACTUAL.brickStatus = ESTADO_LADRILLO.destruido;        
+      
+      } 
+      
+
+       
+     
+     
+    }
+  }
+
+}
+
 // Lógica de dibujo
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -190,6 +240,7 @@ function draw() {
   ballMovement();
   paddletMovement();
   collisions();
+  collisionDetection(); //Colisiones de los ladrillos
   drawBricks();
 }
 
