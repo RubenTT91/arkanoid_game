@@ -52,7 +52,7 @@ for (let c = 0; c < LADRILLO_COLUM; c++) {
 
 //Velicidad pelota
 const ballRadius = 3;
-let velocity_ball = 1.5;
+let velocity_ball = 3;
 let dx = velocity_ball;
 let dy = -velocity_ball;
 
